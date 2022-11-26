@@ -1,48 +1,65 @@
 import React, { useState } from "react";
 import Item from "./Items";
-import "./Navbar.css";
+import './Navbar.css'
+
+const allValues = [...new Set(Item.map((val) => val.category)), "all"];
+console.log(allValues);
 
 const Allover = () => {
   const [data, setData] = useState(Item);
 
   const handleClick = (btnProps) => {
+    if (btnProps === "all") {
+      return setData(Item);
+    }
     const result = Item.filter((val) => {
       return val.category === btnProps;
     });
-    console.log(data);
     setData(result);
   };
+  console.log(data);
   return (
     <div className="container mt-5 ">
-      <div className="text-center">
-        <button className="btn btn-warning mx-2" onClick={() => setData(Item)}>
-          Home
-        </button>
-        <button
-          className="btn btn-warning mx-2"
-          onClick={() => handleClick("breakfast")}
-        >
-          Breakfast
-        </button>
-        <button
-          className="btn btn-warning mx-2"
-          onClick={() => handleClick("dinner")}
-        >
-          Dinner
-        </button>
-        <button
-          className="btn btn-warning mx-2"
-          onClick={() => handleClick("evening")}
-        >
-          Evening
-        </button>
-        <button
-          className="btn btn-warning mx-2"
-          onClick={() => handleClick("lunch")}
-        >
-          Lunch
-        </button>
-      </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex p-2">
+              {allValues.map((getVal, index) => {
+                return (
+                  <button
+                    key={index}
+                    className="btn btn-warning mx-2 mt-2"
+                    onClick={() => handleClick(getVal)}
+                  >
+                    {getVal}
+                  </button>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* {
+        allValues.map((getVal,index)=>{
+          return (
+            <button key={index} className="btn btn-warning mx-2" onClick={() => handleClick(getVal)} >
+              {getVal}
+            </button>
+          );
+        })
+      } */}
 
       <div className="row">
         {data.map((value, index) => {
